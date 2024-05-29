@@ -34,7 +34,7 @@ Route::get('/sidebar', [SidebarController::class, 'showSidebar'])->name('sidebar
 
 Route::get('/home', [App\Http\Controllers\HomeController::class,'index'])->name('home');
 Route::get('/permission', [App\Http\Controllers\PermissionController::class,'index'])->name('permission');
-
+Route::resource('pesanan', PesananController::class);
 Route::resources([
     'roles' => RoleController::class,
     'users' => UserController::class,

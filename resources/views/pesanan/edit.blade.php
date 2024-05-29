@@ -2,38 +2,70 @@
 @extends('layouts.backend')
 
 @section('content')
-<div class="card">
-    <div class="card-header">Edit Pesanan</div>
-    <div class="card-body">
-        <form action="{{ route('pesanan.update', $pesanan->id) }}" method="POST">
-            @csrf
-            @method('PUT')
-            <div class="mb-3">
-                <label for="customer_name" class="form-label">Customer Name</label>
-                <input type="text" class="form-control" id="customer_name" name="customer_name" value="{{ old('customer_name', $pesanan->customer_name) }}">
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <div class="float-start">Edit Pesanan</div>
+                <div class="float-end">
+                    <a href="{{ route('pesanan.index') }}" class="btn btn-primary btn-sm">&larr; Back</a>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="travel_package" class="form-label">Travel Package</label>
-                <select name="travel_package" id="travel_package" class="form-control">
-                    @foreach($travelPackages as $package)
-                        <option value="{{ $package->id }}" {{ $pesanan->travel_package_id == $package->id ? 'selected' : '' }}>{{ $package->title }}</option>
-                    @endforeach
-                </select>
+            <div class="card-body">
+            <form action="{{ route('pesanan.update', $pesanan->id) }}" method="post">
+                    @csrf
+                    @method('PUT')
+                    <!-- Field Travel Package -->
+                    <div class="mb-3 row">
+                        <label for="travel_package" class="col-md-4 col-form-label text-md-end text-start">Travel Package</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control @error('travel_package') is-invalid @enderror" id="travel_package" name="travel_package" value="{{ $pesanan->travel_package }}">
+                            @if ($errors->has('travel_package'))
+                                <span class="text-danger">{{ $errors->first('travel_package') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <!-- Field Name -->
+                    <div class="mb-3 row">
+                        <label for="name" class="col-md-4 col-form-label text-md-end text-start">Name</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $pesanan->name }}">
+                            @if ($errors->has('name'))
+                                <span class="text-danger">{{ $errors->first('name') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <!-- Field Price -->
+                    <div class="mb-3 row">
+                        <label for="price" class="col-md-4 col-form-label text-md-end text-start">Price</label>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control @error('price') is-invalid @enderror" id="price" name="price" value="{{ $pesanan->price }}">
+                            @if ($errors->has('price'))
+                                <span class="text-danger">{{ $errors->first('price') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <!-- Field Status -->
+                    <div class="mb-3 row">
+                        <label for="status" class="col-md-4 col-form-label text-md-end text-start">Status</label>
+                        <div class="col-md-6">
+                            <select class="form-control @error('status') is-invalid @enderror" id="status" name="status">
+                                <option value="pending" {{ $pesanan->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="confirmed" {{ $pesanan->status == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
+                                <option value="cancelled" {{ $pesanan->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                            </select>
+                            @if ($errors->has('status'))
+                                <span class="text-danger">{{ $errors->first('status') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <!-- Button Update -->
+                    <div class="mb-3 row">
+                        <input type="submit" class="col-md-3 offset-md-5 btn btn-primary" value="Update Pesanan">
+                    </div>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="total_price" class="form-label">Total Price</label>
-                <input type="number" class="form-control" id="total_price" name="total_price" value="{{ old('total_price', $pesanan->total_price) }}">
-            </div>
-            <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <select name="status" id="status" class="form-control">
-                    <option value="Pending" {{ $pesanan->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                    <option value="Confirmed" {{ $pesanan->status == 'Confirmed' ? 'selected' : '' }}>Confirmed</option>
-                    <option value="Cancelled" {{ $pesanan->status == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Update Pesanan</button>
-        </form>
+        </div>
     </div>
 </div>
 @endsection

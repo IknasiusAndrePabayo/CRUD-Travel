@@ -30,14 +30,6 @@ public function index()
     return view('pesanan.index', compact('pesanan'));
 }
 
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    /**
- * Show the form for creating a new resource.
- */
 public function create(): View
 {
     $travelPackages = TravelPackage::all();
@@ -70,14 +62,15 @@ public function create(): View
      */
     public function edit(Pesanan $pesanan): View
     {
+        $travelPackages = TravelPackage::all(); // Mengambil semua travel packages
         return view('pesanan.edit', [
-            'pesanan' => $pesanan
+            'pesanan' => $pesanan,
+            'travelPackages' => $travelPackages // Meneruskan ke view
         ]);
     }
     
-    /**
-     * Update the specified resource in storage.
-     */
+
+    
     public function update(UpdatePesananRequest $request, Pesanan $pesanan): RedirectResponse
     {
         $pesanan->update($request->all());
@@ -85,6 +78,8 @@ public function create(): View
             ->withSuccess('Pesanan updated successfully.');
     }
 
+
+    
     /**
      * Remove the specified resource from storage.
      */
