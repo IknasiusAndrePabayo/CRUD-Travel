@@ -91,14 +91,14 @@ class RoleController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
-    {
-        $input = $request->only('name');
-        $role->update($input);
-        $permissions = Permission::whereIn('id', $request->permissions)->get(['name'])->toArray();
-        $role->syncPermissions($permissions);
-        return redirect()->back()
-            ->withSuccess('Role is updated successfully.');
-    }
+{
+    $input = $request->only('name');
+    $role->update($input);
+    $permissions = Permission::whereIn('id', $request->permissions)->get(['name'])->toArray();
+    $role->syncPermissions($permissions);
+    return redirect()->route('roles.index')
+        ->withSuccess('Role is updated successfully.');
+}
 
     /**
      * Remove the specified resource from storage.

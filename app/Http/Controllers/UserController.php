@@ -82,19 +82,23 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user): RedirectResponse
-    {
-        $input = $request->all();
-        if (!empty($request->password)) {
-            $input['password'] = Hash::make($request->password);
-        } else {
-            $input = $request->except('password');
-        }
-        $user->update($input);
-        $user->syncRoles($request->roles);
-        return redirect()->back()
-            ->withSuccess('User is updated successfully.');
+    /**
+ * Update the specified resource in storage.
+ */
+public function update(UpdateUserRequest $request, User $user): RedirectResponse
+{
+    $input = $request->all();
+    if (!empty($request->password)) {
+        $input['password'] = Hash::make($request->password);
+    } else {
+        $input = $request->except('password');
     }
+    $user->update($input);
+    $user->syncRoles($request->roles);
+    return redirect()->route('users.index') // Mengarahkan ke halaman indeks
+        ->withSuccess('User is updated successfully.');
+}
+
 
     /**
      * Remove the specified resource from storage.
